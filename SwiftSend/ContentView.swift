@@ -26,52 +26,54 @@ struct ContentView: View {
         NavigationView {
             VStack {
 //                            Text("Screen Width: \(HEIGHT/5.68)")
-                Image("cloud")
-                    .resizable()
-                    .frame(width: Image_Size, height: Image_Size)
-                    .padding()
-                Text("SwiftSend")
-                    .font(.largeTitle)
-                    .foregroundColor(.blue)
-                    .padding()
-                    .bold()
-                    .padding(.bottom, HEIGHT/3.125926)
-                Button {
-                    isImporting = true
-                } label: {
-                    Text("Send").frame(width: WIDTH/1.965)
+                VStack {
+                    Image("cloud")
+                        .resizable()
+                        .frame(width: Image_Size, height: Image_Size)
+                        .padding()
+                    Text("SwiftSend")
+                        .font(.largeTitle)
+                        .foregroundColor(.blue)
+                        .padding()
+                        .bold()
+//                        .padding(.bottom, HEIGHT/3.125926)
                 }
-                .font(.title)
-                .buttonBorderShape(.capsule)
-                .buttonStyle(.borderedProminent)
-                .controlSize(.large)
-                .fileImporter(isPresented: $isImporting, allowedContentTypes: [.image, .audio, .video]) {
-                    result in do {
-                        let fileURL = try result.get()
-                        selectedFile = fileURL
-                        // 在这里你可以处理选择的文件，比如上传操作
+                Spacer()
+                VStack {
+                    Button {
+                        isImporting = true
+                    } label: {
+                        Text("Send")
+//                            .frame(maxWidth: .infinity)
+                            .frame(width: WIDTH/1.965)
                     }
-                    catch
-                    {
-                        // 处理错误
+                    .font(.title)
+                    .buttonBorderShape(.capsule)
+                    .buttonStyle(.borderedProminent)
+                    .controlSize(.large)
+                    .fileImporter(isPresented: $isImporting, allowedContentTypes: [.image, .audio, .video]) {
+                        result in do {
+                            let fileURL = try result.get()
+                            selectedFile = fileURL
+                            // 在这里你可以处理选择的文件，比如上传操作
+                        }
+                        catch
+                        {
+                            // 处理错误
+                        }
                     }
-                }
-                Button {
-                    showDownloadView = true
-                } label: {
-                    Text("Receive").frame(width: WIDTH/1.965)
-                }
-                .font(.title)
-                .buttonBorderShape(.capsule)
-                .buttonStyle(.borderedProminent)
-                .controlSize(.large)
-                .padding()
-                NavigationLink("", destination: DownloadView(), isActive: $showDownloadView)
-                    .opacity(0)
-                if let fileSize = getFileSize(for: selectedFile) {
-                    Text("文件大小: \(fileSize)")
-                        .font(.headline)
-                        .foregroundColor(.gray)
+                    Button {
+                        showDownloadView = true
+                    } label: {
+                        Text("Receive").frame(width: WIDTH/1.965)
+                    }
+                    .font(.title)
+                    .buttonBorderShape(.capsule)
+                    .buttonStyle(.borderedProminent)
+                    .controlSize(.large)
+                    .padding()
+                    NavigationLink("", destination: DownloadView(), isActive: $showDownloadView)
+                        .opacity(0)
                 }
             }
         }
